@@ -1,0 +1,7 @@
+src/
+test/
+tools/
+ts-temp/
+.travis.yml
+.gitgnore
+.npmignore
