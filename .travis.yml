@@ -3,4 +3,4 @@ script:
  
 language: node_js
 node_js:
-  - "latest"
+  - "11.9"
