@@ -31,7 +31,7 @@ export function client_getUrl (path) {
     return req.httpRequest.endpoint.protocol + "//" + req.httpRequest.endpoint.host + '/' + path;
 }
 
-export function client_ensure (options?: IOptions): S3 {
+export function client_ensure (options: IOptions = <any> {}): S3 {
     if (options != null && 'accessKeyId' in options) {
         let key = options.accessKeyId;
         let client = CLIENTS[key];
@@ -67,7 +67,7 @@ export function client_ensure (options?: IOptions): S3 {
 }
 
 export function client_settings (opts) {
-    if (opts == null || opts.accessKeyId) {
+    if (opts == null || opts.accessKeyId == null) {
         return;
     }
     client_ensure(opts);
