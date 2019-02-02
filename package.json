@@ -1,7 +1,7 @@
 {
   "name": "atma-io-transport-s3",
   "description": "AWS S3 Transport for Atma-Io",
-  "version": "1.0.38",
+  "version": "1.0.39",
   "homepage": "https://github.com/tenbits/atma-io-transport-s3",
   "contributors": [],
   "main": "./lib/index.js",

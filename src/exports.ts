@@ -36,11 +36,11 @@ class Middleware {
 
 	/** Atma-Server */
 	attach(app) {
-		
+		$transport.setOptions(app.config.get('settings.atma-io-middleware-s3'));
 	}
 	/** Atma.Plugin */
 	register(appcfg) {
-		
+		$transport.setOptions(appcfg.get('settings.atma-io-middleware-s3'));
     }
 };
 
