@@ -22,6 +22,12 @@ class Middleware {
     setClient ($client) {
         $transport.setDriver($client);
     }
+    setOptions (options) {
+        $transport.setOptions(options);
+    }
+    getUrl (path: string) {
+        return $transport.getUrl(path);
+    }
 
 	clearTemp () {
 		

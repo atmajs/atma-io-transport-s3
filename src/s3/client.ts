@@ -1,4 +1,5 @@
-import { S3 } from 'aws-sdk'
+import { S3, Request } from 'aws-sdk'
+import { path_parse } from './utils/path';
 
 interface IOptions {
     accessKeyId: string
@@ -21,6 +22,13 @@ const OPTIONS:IOptions = {
 
 export function client_set ($client) {
     singleton = <any> $client;
+}
+export function client_getUrl (path) {
+    let params = path_parse(path);
+    let client = new S3(OPTIONS);
+    let req = new Request(client, 'getObject', {Key: params.key, Bucket: params.bucket});
+    
+    return req.httpRequest.endpoint.protocol + "//" + req.httpRequest.endpoint.host + '/' + path;
 }
 
 export function client_ensure (options?: IOptions): S3 {

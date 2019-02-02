@@ -1,6 +1,15 @@
 {
+    "files": [
+        "src/exports.ts"
+    ],
     "compilerOptions": {
+        "baseUrl": "./",
+        "outDir": "ts-temp",
+        "declaration": true,
+        "sourceMap": false,
         "moduleResolution": "node",
-        "target": "es2015"
+        "target": "es2015",
+        "experimentalDecorators": true,
+        "emitDeclarationOnly": true
     }   
 }
