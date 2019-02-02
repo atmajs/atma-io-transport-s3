@@ -1,0 +1,96 @@
+{
+  "name": "atma-io-transport-s3",
+  "description": "AWS S3 Transport for Atma-Io",
+  "version": "1.0.37",
+  "homepage": "https://github.com/tenbits/atma-io-transport-s3",
+  "contributors": [],
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "author": "Alexander Kit <alex.kit@atmajs.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tenbits/atma-io-transport-s3.git"
+  },
+  "bugs": {
+    "url": "https://github.com/tenbits/atma-io-transport-s3/issues"
+  },
+  "licenses": [
+    "MIT"
+  ],
+  "scripts": {
+    "test": "atma test",
+    "build": "app-bundler",
+    "watch": "app-bundler --watch",
+    "server": "atma server",
+    "release": "atma bump && npm run build && git add -A && git commit -am \"bump\" && npm publish && git push"
+  },
+  "app-bundler": {
+    "file": "src/exports.ts",
+    "outputMain": "lib/index.js",
+    "package": {
+      "module": "commonjs",
+      "commonjs": {
+        "output": "simplified"
+      }
+    },
+    "dynamicDependencies": [
+      "atma-utils",
+      "atma-io",
+      "aws-sdk"
+    ],
+    "defaultExtensions": {
+      "js": "ts"
+    },
+    "middlewares": {
+      "js": [],
+      "ts": [
+        "atma-loader-ts:read"
+      ]
+    }
+  },
+  "keywords": [],
+  "atma": {
+    "settings": {
+      "include": {
+        "amd": true,
+        "extentionDefault": {
+          "js": "ts"
+        }
+      },
+      "atma-loader-ts": {
+        "extensions": [
+          "ts",
+          "test"
+        ],
+        "typescript": {
+          "compilerOptions": {
+            "sourceMap": false,
+            "#if (TEST)": {
+              "module": "AMD"
+            },
+            "#if (!TEST)": {
+              "module": "CommonJS"
+            }
+          }
+        }
+      }
+    },
+    "plugins": [
+      "atma-loader-ts"
+    ]
+  },
+  "dependencies": {
+    "atma-io": "^1.2.15",
+    "aws-sdk": "^2.391.0"
+  },
+  "devDependencies": {
+    "@types/node": "^8.0.14",
+    "app-bundler": "0.0.33",
+    "atma-loader-ts": "^1.1.9",
+    "dts-bundle": "^0.7.3",
+    "mock-aws-s3": "^3.0.0"
+  },
+  "peerDependencies": {
+    "atma-io": ">=1.2.13"
+  }
+}
