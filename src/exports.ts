@@ -1,4 +1,4 @@
-import { io } from './dependencies'
+import { io, packageIo } from './dependencies'
 import { S3Transport } from './S3Transport';
 
 declare type File = InstanceType<typeof io.File>
@@ -47,6 +47,7 @@ class Middleware {
 };
 
 register(io);
+register(packageIo);
 
 function register ($io: typeof io, options?) {
     if ($io == null || $io.File == null || $io.File.registerTransport == null) {
