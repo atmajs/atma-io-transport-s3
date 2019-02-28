@@ -41,12 +41,12 @@ function doPagination(client: S3, params: S3.ListObjectsRequest, paths, onComple
         let count = data.Contents.length;
         if (count !== 0) {
             let arr = data.Contents.map(x => `s3://${params.Bucket}/${x.Key}`);
-            paths.push(...arr);
+            paths = paths.concat(arr);
 
             if (data.IsTruncated) {
                 params.Marker = data.NextMarker || data.Contents[data.Contents.length - 1].Key;
 
-                if (!isNaN(params.MaxKeys) && isFinite(params.MaxKeys)) {
+                if (params.MaxKeys != null && !isNaN(params.MaxKeys) && isFinite(params.MaxKeys)) {
                     params.MaxKeys -= count;
                     if (params.MaxKeys < 1) {
                         onComplete(null, paths);
@@ -56,9 +56,7 @@ function doPagination(client: S3, params: S3.ListObjectsRequest, paths, onComple
                 doPagination(client, params, paths, onComplete);
                 return;
             }    
-        }
-        
-
+        }        
         onComplete(null, paths);
     });  
 }

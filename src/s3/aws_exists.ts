@@ -11,7 +11,7 @@ export function aws_exists (path) {
             Bucket: params.bucket,
             Key: params.key
           }, function(err, data) {
-            if (err) {
+            if (err) {                
                 if (err.statusCode === 404) {
                     resolve(false);
                     return;
