@@ -16,6 +16,7 @@ export function aws_write (path, data: Buffer, encoding?: 'buffer' | 'utf8') {
             Key: params.key,
             Body: data,
             ACL: 'public-read',
+            CacheControl: 'max-age=3600, public',
             ContentType: mime.lookup(path) || 'application/octet-stream'
         }, (error, buffer: PutObjectOutput) => {
             if (error) {
@@ -37,7 +38,9 @@ export function aws_writeMeta (path, meta) {
         Bucket: toParams.bucket,
         Key: toParams.key,
         ACL: 'public-read',
-        ContentType: mime.lookup(path) || 'application/octet-stream'
+        CacheControl: 'max-age=3600, public',
+        ContentType: mime.lookup(path) || 'application/octet-stream',
+        MetadataDirective: 'replace'
     };
     if (meta) {
         obj_extend(copyRequestParams, meta);

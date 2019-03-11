@@ -15,7 +15,9 @@ export function aws_copy (from: string, to: string) {
             Bucket: toParams.bucket,
             Key: toParams.key,
             ACL: 'public-read',
-            ContentType: mime.lookup(to) || 'application/octet-stream'
+            CacheControl: 'max-age=3600, public',
+            ContentType: mime.lookup(to) || 'application/octet-stream',
+            MetadataDirective: 'replace'
         }, (error, result: CopyObjectOutput) => {
             if (error) {
                 reject(error);
