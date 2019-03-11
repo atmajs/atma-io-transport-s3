@@ -1,7 +1,7 @@
 {
   "name": "atma-io-transport-s3",
   "description": "AWS S3 Transport for Atma-Io",
-  "version": "0.9.6",
+  "version": "0.9.7",
   "homepage": "https://github.com/atmajs/atma-io-transport-s3",
   "contributors": [],
   "main": "./lib/index.js",
@@ -37,7 +37,8 @@
     "dynamicDependencies": [
       "atma-utils",
       "atma-io",
-      "aws-sdk"
+      "aws-sdk",
+      "mime-types"
     ],
     "defaultExtensions": {
       "js": "ts"
@@ -82,7 +83,8 @@
   },
   "dependencies": {
     "atma-io": "^1.2.15",
-    "aws-sdk": "^2.391.0"
+    "aws-sdk": "^2.391.0",
+    "mime-types": "^2.1.22"
   },
   "devDependencies": {
     "@types/node": "^8.0.14",

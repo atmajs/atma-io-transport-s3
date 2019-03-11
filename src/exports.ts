@@ -1,5 +1,6 @@
 import { io, packageIo } from './dependencies'
 import { S3Transport } from './S3Transport';
+import { aws_writeMeta } from './s3/aws_write';
 
 declare type File = InstanceType<typeof io.File>
 
@@ -43,6 +44,11 @@ class Middleware {
 	register(appcfg) {
         let options = appcfg.$get('settings.atma-io-transport-s3');
 		$transport.setOptions(options);
+    }
+
+    /** Utils **/
+    writeFileMetaAsync (path: string, meta) {
+        return aws_writeMeta(path, meta);
     }
 };
 

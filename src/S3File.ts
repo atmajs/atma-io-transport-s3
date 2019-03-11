@@ -11,6 +11,7 @@ export class S3File implements IFileTransport {
     saveAsync(path: any, content: any, options: any, cb: any): void {
         pipeCallback(aws_write(path, content), cb);
     }
+    
     copyAsync(from: string, to: string, cb: (err: Error) => void) {
         pipeCallback(aws_copy(from, to), cb);
     }

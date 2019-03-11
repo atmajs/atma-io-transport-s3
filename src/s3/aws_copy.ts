@@ -1,6 +1,7 @@
 import { client_ensure } from './client';
 import { path_parse } from './utils/path';
 import { CopyObjectOutput } from 'aws-sdk/clients/s3';
+import * as mime from 'mime-types'
 
 export function aws_copy (from: string, to: string) {
 
@@ -13,6 +14,8 @@ export function aws_copy (from: string, to: string) {
             CopySource: `${fromParams.bucket}/${fromParams.key}`,
             Bucket: toParams.bucket,
             Key: toParams.key,
+            ACL: 'public-read',
+            ContentType: mime.lookup(to) || 'application/octet-stream'
         }, (error, result: CopyObjectOutput) => {
             if (error) {
                 reject(error);
