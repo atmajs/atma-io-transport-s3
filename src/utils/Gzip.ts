@@ -3,7 +3,7 @@ import * as zlib from 'zlib'
 export namespace Gzip {    
     export function compress (buffer: Buffer): Promise<Buffer> {
         return new Promise((resolve, reject) => {
-            zlib.deflate(buffer, (err, buffer) => {
+            zlib.gzip(buffer, (err, buffer) => {
                 if (err) {
                     reject(err);
                     return;
