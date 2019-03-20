@@ -15,8 +15,10 @@ export async function aws_write (path, data: string | Buffer, options?: Partial<
     let buffer = typeof data === 'string' 
         ? Buffer.from(data) 
         : data;
+    let length = buffer.length;
+    let isEncoded = setts.ContentEncoding === 'gzip';
     
-    if (setts.ContentEncoding === 'gzip') {        
+    if (isEncoded) {
         buffer = await Gzip.compress(buffer);
     }
 
@@ -28,7 +30,10 @@ export async function aws_write (path, data: string | Buffer, options?: Partial<
             ACL: setts.ACL || 'public-read',
             CacheControl: setts.CacheControl || 'max-age=3600, public',
             ContentType: setts.ContentType || mime.lookup(path) || 'application/octet-stream',
-            ContentEncoding: setts.ContentEncoding
+            ContentEncoding: setts.ContentEncoding,
+            Metadata: isEncoded ? {
+                'x-decompressed-content-length': String(length)
+            } : void 0
         }, (error, buffer: PutObjectOutput) => {
             if (error) {
                 reject(error);
