@@ -9,8 +9,8 @@ import { AwsFileOptions } from './class/AwsFileOptions';
 
 export class S3File implements IFileTransport {
     
-    saveAsync(path: any, content: string | Buffer, options: AwsFileOptions, cb: any): void {
-        pipeCallback(aws_write(path, content, options), cb);
+    saveAsync(path: any, content: string | Buffer, options: { s3: AwsFileOptions }, cb: any): void {
+        pipeCallback(aws_write(path, content, options && options.s3), cb);
     }
     
     copyAsync(from: string, to: string, cb: (err: Error) => void) {
