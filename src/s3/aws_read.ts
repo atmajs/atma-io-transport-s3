@@ -1,8 +1,9 @@
 import { client_ensure } from './client';
 import { path_parse } from './utils/path';
 import { GetObjectOutput } from 'aws-sdk/clients/s3';
+import { Gzip } from '../utils/Gzip';
 
-export function aws_read (path, encoding?: 'buffer' | 'utf8') {
+export function aws_read (path, encoding?: 'buffer' | 'utf8'): Promise<string | Buffer> {
 
     let client = client_ensure();
     let params = path_parse(path);
@@ -11,12 +12,16 @@ export function aws_read (path, encoding?: 'buffer' | 'utf8') {
         client.getObject({
             Bucket: params.bucket,
             Key: params.key,
-        }, (error, buffer: GetObjectOutput) => {
+        }, async (error, output: GetObjectOutput) => {
             if (error) {
                 reject(error);
                 return;
             }
-            let data = encoding === 'utf8' ? buffer.Body.toString() : buffer.Body;
+            let body = output.Body as Buffer;
+            if (output.ContentEncoding === 'gzip') {
+                body = await Gzip.decompress(body);
+            }
+            let data = encoding === 'utf8' ? body.toString('utf8') : body;
             resolve(data);
         });
     }); 

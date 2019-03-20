@@ -1,7 +1,7 @@
 {
   "name": "atma-io-transport-s3",
   "description": "AWS S3 Transport for Atma-Io",
-  "version": "0.9.9",
+  "version": "0.9.12",
   "homepage": "https://github.com/atmajs/atma-io-transport-s3",
   "contributors": [],
   "main": "./lib/index.js",
@@ -38,7 +38,8 @@
       "atma-utils",
       "atma-io",
       "aws-sdk",
-      "mime-types"
+      "mime-types",
+      "^zlib$"
     ],
     "defaultExtensions": {
       "js": "ts"

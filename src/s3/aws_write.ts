@@ -4,20 +4,31 @@ import { PutObjectOutput } from 'aws-sdk/clients/s3';
 import * as mime from 'mime-types'
 import { S3 } from 'aws-sdk';
 import { obj_extend } from 'atma-utils';
+import { Gzip } from '../utils/Gzip' 
+import { AwsFileOptions } from '../class/AwsFileOptions';
 
-export function aws_write (path, data: Buffer, encoding?: 'buffer' | 'utf8') {
+export async function aws_write (path, data: string | Buffer, options?: Partial<AwsFileOptions>) {
 
     let client = client_ensure();
     let params = path_parse(path);
+    let setts = new AwsFileOptions(options);
+    let buffer = typeof data === 'string' 
+        ? Buffer.from(data) 
+        : data;
+    
+    if (setts.ContentEncoding === 'gzip') {        
+        buffer = await Gzip.compress(buffer);
+    }
 
     return new Promise((resolve, reject) => {
         client.putObject({
             Bucket: params.bucket,
             Key: params.key,
-            Body: data,
-            ACL: 'public-read',
-            CacheControl: 'max-age=3600, public',
-            ContentType: mime.lookup(path) || 'application/octet-stream'
+            Body: buffer,
+            ACL: setts.ACL || 'public-read',
+            CacheControl: setts.CacheControl || 'max-age=3600, public',
+            ContentType: setts.ContentType || mime.lookup(path) || 'application/octet-stream',
+            ContentEncoding: setts.ContentEncoding
         }, (error, buffer: PutObjectOutput) => {
             if (error) {
                 reject(error);

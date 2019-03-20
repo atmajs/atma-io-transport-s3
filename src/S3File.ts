@@ -5,11 +5,12 @@ import { aws_write } from './s3/aws_write';
 import { aws_copy } from './s3/aws_copy';
 import { aws_rename } from './s3/aws_rename';
 import { aws_delete } from './s3/aws_delete';
+import { AwsFileOptions } from './class/AwsFileOptions';
 
 export class S3File implements IFileTransport {
     
-    saveAsync(path: any, content: any, options: any, cb: any): void {
-        pipeCallback(aws_write(path, content), cb);
+    saveAsync(path: any, content: string | Buffer, options: AwsFileOptions, cb: any): void {
+        pipeCallback(aws_write(path, content, options), cb);
     }
     
     copyAsync(from: string, to: string, cb: (err: Error) => void) {
