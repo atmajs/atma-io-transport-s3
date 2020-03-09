@@ -24,6 +24,8 @@ export function client_set ($client) {
     singleton = <any> $client;
 }
 export function client_getUrl (path) {
+    let aws = require('aws-sdk');
+    let { S3, Request } = aws;
     let params = path_parse(path);
     let client = new S3(OPTIONS);
     let req = new Request(client, 'getObject', {Key: params.key, Bucket: params.bucket});
@@ -74,6 +76,8 @@ export function client_settings (opts) {
 }
 
 function create (options: any & IOptions) {
+    let aws = require('aws-sdk');
+    let { S3 } = aws;
     let opts = Object.create(OPTIONS);
     for (let key in OPTIONS) if (key in options) {
         opts[key] = options[key];
