@@ -9,6 +9,7 @@ interface IOptions {
     sslEnabled: boolean
 };
 
+let singletonOptions: IOptions = null;
 let singleton: S3 = null;
 
 const CLIENTS: { [accessKey: string]: S3 } = {};
@@ -50,6 +51,9 @@ export function client_ensure (options: IOptions = <any> {}): S3 {
     if (singleton) {
         return singleton;
     }
+    if (singletonOptions != null) {
+        return client_ensure(singletonOptions);
+    }
     let accessKeyId = process.env.AWS_KEY;
     let secretAccessKey = process.env.AWS_SECRET;
     let region = process.env.AWS_REGION;
@@ -68,11 +72,12 @@ export function client_ensure (options: IOptions = <any> {}): S3 {
     throw new Error('No AWS Configuration found');
 }
 
-export function client_settings (opts) {
+export function client_settings (opts: any & IOptions) {
     if (opts == null || opts.accessKeyId == null) {
         return;
     }
-    client_ensure(opts);
+    singletonOptions = opts;
+    //-client_ensure(opts);
 }
 
 function create (options: any & IOptions) {
